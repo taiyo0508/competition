@@ -1,0 +1,2 @@
+# competition
+KaggleやSIGNATEなどの管理
