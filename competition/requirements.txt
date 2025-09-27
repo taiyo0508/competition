@@ -1,0 +1,13 @@
+# データ分析の基本ライブラリ
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+
+# SIGNATEでよく使われるライブラリ
+lightgbm
+xgboost
+
+# Jupyter Labを使うために必要
+jupyterlab
