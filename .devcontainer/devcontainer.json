@@ -1,24 +1,10 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/miniconda
 {
-	"name": "Miniconda (Python 3)",
-	"build": { 
-		"context": "..",
-		"dockerfile": "Dockerfile"
+	"name": "competition",
+	"build": { "dockerfile": "Dockerfile", "context": "." },
+	"postCreateCommand": "python -m pip install --upgrade pip ipykernel && python -m ipykernel install --user --name py311 --display-name 'Python 3.11 (container)'",
+	"customizations": {
+	  "vscode": {
+		"extensions": ["ms-python.python", "ms-toolsai.jupyter"]
+	  }
 	}
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "python --version",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
-}
+  }

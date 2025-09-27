@@ -1,16 +1,23 @@
-FROM mcr.microsoft.com/devcontainers/miniconda:1-3
+# ベースとなるPythonの公式イメージを指定
+FROM python:3.10-slim
 
-# Copy environment.yml (if found) to a temp location so we update the environment. Also
-# copy "noop.txt" so the COPY instruction does not fail if no environment.yml exists.
-COPY environment.yml* .devcontainer/noop.txt /tmp/conda-tmp/
-RUN if [ -f "/tmp/conda-tmp/environment.yml" ]; then umask 0002 && /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
-    && rm -rf /tmp/conda-tmp
+# ----------------------------------------------------
+# 必要なシステムパッケージをインストールするコマンドを追加
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git
+# ----------------------------------------------------
 
-# [Optional] Uncomment to install a different version of Python than the default
-# RUN conda install -y python=3.6 \
-#     && pip install --no-cache-dir pipx \
-#     && pipx reinstall-all
+# 作業ディレクトリを作成し、移動
+WORKDIR /work
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+# 必要なライブラリリストをコンテナにコピー
+COPY requirements.txt .
+
+# requirements.txt を使ってライブラリをインストール
+RUN pip install --no-cache-dir -r requirements.txt
+
+# コンテナの8888番ポートを開放（Jupyter用）
+EXPOSE 8888
+
+# コンテナ起動時にJupyter Labを起動するコマンド
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--no-browser", "--NotebookApp.token=''"]
